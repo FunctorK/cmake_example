@@ -14,16 +14,22 @@ using functorK::api::apf::ApfStructure;
 using functorK::api::apf::ApfApi;
 
 int main(int argc, char **argv) {
-    auto channel = grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials());
+    auto callCreds = grpc::ServiceAccountJWTAccessCredentials(argv[1]);
+    auto channel = grpc::CreateChannel(argv[0], grpc::InsecureChannelCredentials());
     auto stub = functorK::api::apf::ApfApi::NewStub(channel);
 
     ClientContext context;
+    context.set_credentials(callCreds);
 
     Empty request;
     ApfStructure response;
 
     Status status = stub->FetchApfStructure(&context, request, &response);
-    std::cout << "Reply received: " << response.organization() << std::endl;
+    if (status.ok()) {
+        std::cout << "Reply received: " << response.organization() << std::endl;
+    } else {
+        std::cout << "Err code: " << status.error_code() << std::endl;
+    }
 
     return 0;
 }
