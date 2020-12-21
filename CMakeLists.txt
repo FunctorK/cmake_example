@@ -6,7 +6,7 @@ include(FetchContent)
 
 FetchContent_Declare(api
         GIT_REPOSITORY git@github.com:FunctorK/apf-api.git
-        GIT_TAG caf83e903070ea298e8fd3961d47b2f8dbc58c9e
+        GIT_TAG 4cefb72b9e76acac5de5f487887da5b4fccc2523
         USES_TERMINAL_DOWNLOAD YES
         USES_TERMINAL_UPDATE YES
         )
